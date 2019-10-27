@@ -1,0 +1,76 @@
+<style>
+#container {
+    min-width: 310px;
+    max-width: 800px;
+    height: 400px;
+    margin: 0 auto
+}
+</style>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+<div id="container"></div>
+
+<script language="JavaScript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const chart = Highcharts.chart('container', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'TronHive contract balance'
+        },
+
+        yAxis: {
+            title: {
+                text: 'TronHive contract balance'
+            },
+
+            labels: {
+                formatter: function() {
+                    return numeral(this.value).format('0.0a');
+                }
+              },
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    "formatter": function() {
+                        return numeral(this.y).format('0.0a');
+                    }
+                },
+                enableMouseTracking: true
+            }
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        series: [{
+            name: 'Balance',
+            data: []
+        }],
+        });
+
+        // laod data
+        (async () => {
+            const url = "/api";
+            const r = await fetch(url);
+            let data = await r.json();
+
+            data = data.map(x => [x[1] * 1000, x[0] / 10**6]);
+            data.forEach(i => {
+                chart.series[0].addPoint(i);
+            });
+        })();
+    });
+
+</script>

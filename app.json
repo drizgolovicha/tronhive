@@ -1,0 +1,12 @@
+{
+  "name": "Trongive: Python",
+  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "image": "heroku/python",
+  "keywords": ["python"],
+  "repository": "git@github.com:drizgolovicha/tronhive.git",
+  "addons": [],
+  "env": {
+  },
+  "environments": {
+  }
+}
